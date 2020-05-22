@@ -6,12 +6,8 @@
 
 
 function runApp(App){
-  // Observe.regist('test',function(val){
-  //   console.log(val.args)
-  //   App.innerHTML = val.args
-  //   document.body.replaceChild(App,App)
-  // })
-
+ 
+  if(!App) return
   document.body.appendChild(App)
   
 }
@@ -19,6 +15,7 @@ function runApp(App){
 function Manda(){
 
 }
+
 
 class Observer {
    _message = {}

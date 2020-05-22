@@ -6,5 +6,6 @@ const globalStyle = {
   background:'red',
 }
 function MyApp(){
-  return Div(HomePage(),{ id:'app',style:{},className:'test'})
+  //  return new Div('dd')
+  return new Div(HomePage,{ id:'app',style:{},className:'test'})
 }
