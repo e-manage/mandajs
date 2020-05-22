@@ -16,43 +16,39 @@ var prototypes = {
   _initElement,
   _initAttrs,
   _selfChange:function({type,args}){
-    this.dom.innerHTML = args 
+    if(this.dom instanceof HTMLElement || this.dom instanceof Text){
+      switch (this.dom.nodeType) {
+        case 1: //元素节点 如div p span
+          this.dom.innerHTML = args 
+          break;
+        case 3: //文本节点
+          this.dom.data = args
+            break;
+        default:
+          break;
+      }  
+    } 
   }
 }
-
- 
-function Watcher(state){
-  this.state = new Proxy(state, {
-    get(target, key) {
-      let result = target[key];
-      if (key === "age") result += "岁";
-      return {
-        target,
-        key,
-        value:result
-      };
-    },
-    set(target, key, value) {
-      Observe.fire(key,value)
-      return Reflect.set(target, key, value);
-    }
-  });
-}
-
-function manda(){
-  this.state = {}
-  this.initState = function(state){
-    this.state = new Watcher(state).state   
-  }
-}
-
-
 
 function Div(child, attr={}) {
   Observe.regist(child.key,this._selfChange.bind(this))
   this.child = child
   this.attr = attr
   this.dom = this._initElement()
+  return this.dom
+}
+
+function Texts(child){
+  this.type = 'text'
+  this.child = child
+  if(typeof child ==='string'||typeof child ==='number'){
+    this.dom = document.createTextNode(child)
+  }else{
+    Observe.regist(child.key,this._selfChange.bind(this))
+    this.dom = document.createTextNode(child.value)
+  }
+ 
   return this.dom
 }
 function Span(child, attr={}) {
@@ -63,10 +59,10 @@ function Span(child, attr={}) {
   this.dom = this._initElement()
   return this.dom
 }
-function Input(child, attr={}){
-  Observe.regist(child.key,this._selfChange.bind(this))
+function Input(attr={}){
+
   this.type = 'input'
-  this.child = child
+  this.child = undefined
   this.attr = attr
   this.dom = this._initElement()
   
@@ -94,7 +90,7 @@ Span.prototype = { ...prototypes }
 H1.prototype = { ...prototypes }
 H6.prototype = { ...prototypes }
 Input.prototype = { ...prototypes }
-
+Texts.prototype ={ ...prototypes }
 function _initElement(){
   const { type ,child,attr } = this
   if(!type) throw Error('节点类型错误')
@@ -114,7 +110,8 @@ function _initAttrs(dom) {
     onFoucs,
     onBlur,
     onChange,
-    value
+    value,
+    placeholder
   } = attr
   
   
@@ -142,6 +139,9 @@ function _initAttrs(dom) {
     }
     if(value){//初始化input数据
       dom.value = value.value
+    }
+    if(placeholder){
+      dom.placeholder=placeholder
     }
 
   }
