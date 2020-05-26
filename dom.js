@@ -31,6 +31,23 @@ var prototypes = {
   }
 }
 
+function Test(child, attr={}){
+  if(this instanceof Test){
+    this.child = child
+    this.attr = attr
+    this.dom = this._initElement()
+    return this.dom
+  }else{
+    return new Test(child, attr={})
+  }
+  // return new Test(child)
+  // this.child = child
+  // this.attr = attr
+  // this.dom = this._initElement()
+  // console.log(this.dom)
+  // return this.dom
+}
+
 function Div(child, attr={}) {
   Observe.regist(child.key,this._selfChange.bind(this))
   this.child = child
@@ -40,6 +57,7 @@ function Div(child, attr={}) {
 }
 
 function Texts(child){
+  console.log('>>>',this.state)
   this.type = 'text'
   this.child = child
   if(typeof child ==='string'||typeof child ==='number'){
@@ -51,13 +69,20 @@ function Texts(child){
  
   return this.dom
 }
-function Span(child, attr={}) {
-  Observe.regist(child.key,this._selfChange.bind(this))
-  this.type = 'span'
-  this.child = child
-  this.attr = attr
-  this.dom = this._initElement()
-  return this.dom
+function Span(child, attr={},state) {
+  if(this instanceof Span){
+    Observe.regist(child.key,this._selfChange.bind(this))
+    console.log('span',this,state)
+    this.type = 'span'
+    this.child = child
+    this.attr = attr
+    this.dom = this._initElement()
+    return this.dom
+  }else{
+    return new Span(child, attr={},state)
+    
+  }
+ 
 }
 function Input(attr={}){
 
@@ -91,6 +116,7 @@ H1.prototype = { ...prototypes }
 H6.prototype = { ...prototypes }
 Input.prototype = { ...prototypes }
 Texts.prototype ={ ...prototypes }
+Test.prototype = { ...prototypes }
 function _initElement(){
   const { type ,child,attr } = this
   if(!type) throw Error('节点类型错误')

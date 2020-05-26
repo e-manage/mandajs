@@ -1,4 +1,4 @@
-import HomePage from './index.js'
+import HomePage from './template/index1.js'
 
 const main = runApp(MyApp())
 const globalStyle = {
@@ -6,6 +6,6 @@ const globalStyle = {
   background:'red',
 }
 function MyApp(){
-  //  return new Div('dd')
-  return new Div(HomePage,{ id:'app',style:{},className:'test'})
+   return HomePage
+  // return new Div(HomePage,{ id:'app',style:{},className:'test'})
 }
