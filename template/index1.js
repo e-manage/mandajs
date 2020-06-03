@@ -7,10 +7,11 @@ const Home = function () {
     pass:false,
     classes:['语文','数学','英语']
   })
- 
+  
   return this.render((r)=>{
-    const { _Span }= r
-    return _Span('${age}')
+    const { Container } = r.widgets
+
+    return Container('${age}')
   })
  
   // return Test('${age}')
