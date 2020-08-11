@@ -11,28 +11,37 @@ function Doms(state){
 }
 
 
-class MandaWidgets{
+// class MandaWidgets{
+//   constructor(state){
+//     this.state = state
+//   }
+
+//   widgets = {
+//     Container:(child,attr)=>{
+//       console.log(456,child,attr,this)
+//       return new Div(child)
+//     }
+//   }
+// }
+
+class RenderDom{
+  state = null
   constructor(state){
     this.state = state
   }
-
-  widgets = {
-    Container:(child,attr)=>{
-      console.log(456,child,attr,this)
-      return new Div(child)
-    }
+  h(){
+    console.log('tag', 'staert')
   }
 }
 
 function runApp(App){
   console.log(11,App)
   if(!App) return
-  document.body.appendChild(App)
-  
+  document.body.innerHTML = App  
 }
 
 function manda(){
-  var a = new Mdoms({})
+  
   this.state = {}
   this.initState = function(state){
     this.state = new Watcher(state).state   
@@ -40,7 +49,8 @@ function manda(){
 
   this.render = function(fn){
     
-    const doms = new MandaWidgets(this.state)
+    // const doms = new MandaWidgets(this.state)
+    const doms = new RenderDom(this.state)
     
     const dom = fn(doms)
   

@@ -7,16 +7,18 @@ const Home = function () {
     pass:false,
     classes:['语文','数学','英语']
   })
-  
-  return this.render((r)=>{
-    const { Container } = r.widgets
-
-    return Container('${age}')
+  function renders(){
+    
+  }
+  return this.render(({state,h})=>{
+    
+    console.log('r', h,this)
+    return 123
   })
  
   // return Test('${age}')
 }
 Home.prototype = new manda()
-const HomePage = new Home()
 
-export default HomePage
+
+export default new Home()
